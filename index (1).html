@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#5b5bf0">
+<title>Daily Hub</title>
+<style>
+:root{--bg:#f3f4fa;--card:#fff;--tx:#171a2b;--mut:#6d7390;--bd:#e4e7f2;--acc:#5b5bf0;--g:#13a874;--r:#e5384f;--hero:linear-gradient(135deg,#5b5bf0,#a25cf0);--sh:0 4px 18px rgba(60,60,120,.08);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d0f18;--card:#171a27;--tx:#e9ebf5;--mut:#8f95b0;--bd:#262a3b;--acc:#8d8aff;--g:#34d6a0;--r:#ff6f85;--hero:linear-gradient(135deg,#3b3bb8,#6d3fb8);--sh:none;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d0f18;--card:#171a27;--tx:#e9ebf5;--mut:#8f95b0;--bd:#262a3b;--acc:#8d8aff;--g:#34d6a0;--r:#ff6f85;--hero:linear-gradient(135deg,#3b3bb8,#6d3fb8);--sh:none;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.wrap{max-width:760px;margin:0 auto;padding:14px 14px 96px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+header small{color:var(--mut)}h1{margin:0;font-size:22px}h2{font-size:15px;margin:0 0 10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:var(--sh)}
+.hero{background:var(--hero);color:#fff;border:none}.hero p{font-size:18px;line-height:1.4;margin:0 0 6px;font-weight:500}.hero small{opacity:.85}
+.hero input{background:rgba(255,255,255,.18);border-color:transparent;color:#fff}.hero input::placeholder{color:rgba(255,255,255,.7)}
+.hero button{background:rgba(255,255,255,.22);border-color:transparent;color:#fff}
+.grid{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-bottom:12px}
+.stat{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px;box-shadow:var(--sh)}.stat small{color:var(--mut);display:block;font-size:11px}.stat b{font-size:15px;word-break:break-word}
+.g{color:var(--g)}.r{color:var(--r)}.mut{color:var(--mut)}
+input,select,textarea,button{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:9px 11px;min-width:0}
+textarea{width:100%;resize:vertical}button{cursor:pointer}button.p,button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+@media(max-width:600px){input,select,textarea,button{font-size:16px}}
+.bar{height:10px;background:var(--bd);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--g);transition:width .6s}
+.tx{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd)}.tx .m{flex:1;min-width:0}.tx .m b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tx small{color:var(--mut)}.tx select{padding:2px 4px;font-size:12px}
+.ic{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700}.ic.in{background:rgba(19,168,116,.16);color:var(--g)}.ic.out{background:rgba(229,56,79,.16);color:var(--r)}
+.x{background:none;border:none;color:var(--mut);padding:4px 8px}
+.news a{display:block;color:inherit;text-decoration:none;padding:10px 0;border-bottom:1px solid var(--bd)}.news b{display:block}.news small{color:var(--mut)}
+.apps{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}.apps a{text-decoration:none;color:#fff;text-align:center;padding:14px 6px;border-radius:14px;font-weight:600}
+.chip{display:inline-block;background:var(--bg);border:1px solid var(--bd);border-radius:20px;padding:3px 10px;margin:2px;font-size:13px}
+svg{width:100%;height:auto;display:block}rect.b{transform-box:fill-box;transform-origin:bottom;animation:gr .7s ease both}@keyframes gr{from{transform:scaleY(0)}}
+.pg[hidden]{display:none}
+#nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px);z-index:20}
+#nav button{flex:1;border:none;background:none;border-radius:0;padding:8px 0;font-size:11px;color:var(--mut);display:flex;flex-direction:column;align-items:center}#nav button span{font-size:20px}#nav button.on{color:var(--acc);background:none;font-weight:600}
+#rf.spin{animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:8px 14px;border-radius:20px;z-index:30;display:none;max-width:90%}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--mut);margin-right:4px}.dot.on{background:var(--g)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div><small id="date"></small><h1 id="hi"></h1></div><div class="row"><small id="st"></small><button id="rf" title="Refresh">⟳</button></div></header>
+
+<section class="pg" id="p-home">
+<div class="card hero"><p id="q"></p><small id="qa"></small>
+<div class="row" style="margin-top:10px"><button id="nq">✨ New quote</button><input id="qs" placeholder="Search: love, life, hope…" style="flex:1"><button id="qb">Go</button></div></div>
+<div class="grid" id="hs"></div>
+<div class="card"><div class="row" style="justify-content:space-between"><h2>Monthly budget</h2><small class="mut" id="bt"></small></div><div class="bar"><i id="bf" style="width:0"></i></div></div>
+<div class="card news"><h2>⚽ Liverpool headlines</h2><div id="hn"></div></div>
+<div class="card"><h2>💬 Social inbox</h2><div id="hi2"></div></div>
+</section>
+
+<section class="pg" id="p-money" hidden>
+<div class="card"><h2>Add from bank SMS</h2>
+<textarea id="sms" rows="4" placeholder="Paste one or many bank / Telebirr messages here. Separate messages with a blank line."></textarea>
+<div class="row" style="margin-top:8px"><button class="p" id="smsb">Calculate &amp; add</button><button id="clip">📋 Paste from clipboard</button></div><small class="mut" id="smsr"></small></div>
+<div class="card"><h2>Add manually</h2><div class="row"><input id="m-a" type="number" step="any" placeholder="Amount" style="width:110px"><select id="m-t"><option value="out">Expense</option><option value="in">Income</option></select><select id="m-c"></select><input id="m-n" placeholder="Note" style="flex:1;min-width:100px"><button class="p" id="m-add">Add</button></div></div>
+<div class="row" id="chips" style="margin-bottom:12px"><button data-r="7">7 days</button><button data-r="30">30 days</button><button data-r="month">This month</button><button data-r="all">All</button></div>
+<div class="grid" id="msum"></div>
+<div class="card"><h2>Income vs expense · last 14 days</h2><div id="cbar"></div></div>
+<div class="card"><h2>Spending by category</h2><div id="cdon"></div></div>
+<div class="card"><h2>Bank balance trend</h2><div id="cbal"></div></div>
+<div class="card"><h2>Transactions</h2><div id="tx"></div></div>
+</section>
+
+<section class="pg" id="p-news" hidden><div class="card news"><div class="row" style="justify-content:space-between"><h2 style="margin:0">⚽ Liverpool news</h2><small class="mut" id="nu"></small></div><div id="nl"></div></div></section>
+
+<section class="pg" id="p-soc" hidden>
+<div class="card"><h2>Open your apps</h2><div class="apps">
+<a href="https://www.facebook.com" target="_blank" style="background:#1877f2">Facebook</a><a href="https://web.telegram.org" target="_blank" style="background:#229ed9">Telegram</a><a href="https://www.tiktok.com" target="_blank" style="background:#111">TikTok</a><a href="https://wa.me" target="_blank" style="background:#25a244">WhatsApp</a></div></div>
+<div class="card"><h2>📡 Telegram public channels</h2><div class="row"><input id="tgn" placeholder="channel username" style="flex:1"><button class="p" id="tga">Follow</button></div><div id="tgc"></div><div class="news" id="tgl"></div></div>
+<div class="card"><h2>📝 Social inbox</h2><small class="mut">Note messages or posts you must check or answer.</small>
+<div class="row" style="margin:8px 0"><select id="ip"><option>Facebook</option><option>Telegram</option><option>TikTok</option><option>WhatsApp</option><option>Other</option></select><input id="it" placeholder="e.g. Reply to Abdi" style="flex:1"><button class="p" id="ia">Add</button></div><div id="il"></div></div>
+</section>
+
+<section class="pg" id="p-set" hidden>
+<div class="card"><h2>Settings</h2><div class="row" style="margin-bottom:8px"><label>Theme <select id="th"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label>Currency <input id="cu" style="width:80px"></label><label>Monthly budget <input id="bu" type="number" style="width:120px"></label></div>
+<h2>News sources (one RSS link per line)</h2><textarea id="ns" rows="4"></textarea>
+<div class="row" style="margin-top:10px"><button class="p" id="rn">Refresh now</button><button id="ex">Backup</button><button id="im">Import</button><button id="cl" class="x r">Clear data</button><input id="fi" type="file" hidden></div>
+<p class="mut" id="ls"></p></div>
+<div class="card"><h2>How it works</h2><p class="mut" style="margin:0">Bank messages: copy a message from your SMS app and press Paste. The app finds the amount, whether it is money in or out, and the balance. News, quotes and Telegram channels refresh automatically when you open the app with internet. Private messages from Facebook and TikTok cannot be read by a normal app, so use the Social inbox for those.</p></div>
+</section>
+</div>
+<div id="toast"></div>
+<nav id="nav"><button data-pg="home"><span>🏠</span>Home</button><button data-pg="money"><span>💰</span>Money</button><button data-pg="news"><span>⚽</span>Liverpool</button><button data-pg="soc"><span>💬</span>Social</button><button data-pg="set"><span>⚙️</span>Settings</button></nav>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const pad=n=>String(n).padStart(2,'0'),ds=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()),today=()=>ds(new Date());
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const safe=u=>/^https?:\/\//.test(u)?u:'#';
+const CATS=['Salary','Income','Food','Transport','Bills','Airtime','Transfer','Shopping','Health','Other'];
+const QS=[["The secret of getting ahead is getting started.","Mark Twain"],["It always seems impossible until it is done.","Nelson Mandela"],["Discipline is the bridge between goals and accomplishment.","Jim Rohn"],["Do what you can, with what you have, where you are.","Theodore Roosevelt"],["Small steps every day lead to big results.","Unknown"],["The best time to plant a tree was 20 years ago. The second best time is now.","Proverb"]];
+let S={tx:[],news:[],tgp:[],tg:[],inbox:[],qh:[],quote:{},cur:'ETB',budget:0,theme:'auto',last:0,range:'30',
+nsrc:['https://feeds.bbci.co.uk/sport/football/teams/liverpool/rss.xml','https://www.theguardian.com/football/liverpool/rss','https://www.liverpoolecho.co.uk/all-about/liverpool-fc?service=rss']};
+try{const r=localStorage.getItem('hub1');if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+const save=()=>{try{localStorage.setItem('hub1',JSON.stringify(S))}catch(e){}};
+const fm=n=>S.cur+' '+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+const sum=(T,y)=>T.filter(t=>t.type===y).reduce((a,t)=>a+t.amt,0);
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',2600)}
+/*P*/
+function hash(t){let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))|0;return String(h)}
+function parse1(m){
+ const t=m.replace(/\s+/g,' ').trim(),num=s=>parseFloat(s.replace(/,/g,''));
+ if(t.length<12)return null;
+ let bal=null;const bm=t.match(/(?:balance|bal)[^0-9]{0,30}([\d,]+(?:\.\d+)?)/i);
+ if(bm)bal=num(bm[1]);
+ const rest=bm?t.replace(bm[0],' '):t;
+ const am=rest.match(/(?:ETB|Birr|Br\.?|USD|\$)\s*([\d,]+(?:\.\d+)?)/i)||rest.match(/([\d,]+(?:\.\d+)?)\s*(?:ETB|Birr)\b/i);
+ if(!am)return null;const amt=num(am[1]);if(!(amt>0))return null;
+ const i1=t.search(/credited|received|deposit|salary|refund|incoming|added to/i),i2=t.search(/debited|withdraw|paid|payment|transferred|purchase|sent|spent|bought|airtime|bill|fee\b|charge/i);
+ if(i1<0&&i2<0)return null;
+ const type=i2<0||(i1>=0&&i1<i2)?'in':'out';
+ let date=today(),d1=t.match(/(\d{4})-(\d{2})-(\d{2})/),d2=t.match(/\b(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})\b/);
+ if(d1)date=d1[0];else if(d2)date=d2[3]+'-'+pad(d2[2])+'-'+pad(d2[1]);
+ let cat='Other';
+ if(type==='in')cat=/salary/i.test(t)?'Salary':'Income';
+ else if(/airtime|recharge|data package|ethio telecom|safaricom/i.test(t))cat='Airtime';
+ else if(/fuel|taxi|ride|transport|ticket/i.test(t))cat='Transport';
+ else if(/food|restaurant|cafe|supermarket|market|grocery|shop/i.test(t))cat='Food';
+ else if(/electric|water|utility|\bbills?\b|\brent\b|internet/i.test(t))cat='Bills';
+ else if(/transfer|sent/i.test(t))cat='Transfer';
+ return {id:Date.now()+Math.random(),key:hash(t),date,type,amt,cat,note:t.slice(0,70),bal,src:'sms'};
+}
+/*E*/
+function readSms(text){
+ let out=[],bad=0;const bl=text.split(/\n{2,}/).map(s=>s.trim()).filter(Boolean);
+ bl.forEach(b=>{const r=parse1(b);if(r)out.push(r);else if(b.includes('\n')){b.split('\n').forEach(l=>{const q=parse1(l);if(q)out.push(q);else if(l.trim())bad++})}else bad++});
+ let add=0,dup=0;out.forEach(r=>{if(S.tx.some(x=>x.key===r.key))dup++;else{S.tx.push(r);add++}});
+ save();return{add,dup,bad};
+}
+const isNative=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform());
+async function get(url,type){
+ const f=async u=>{const r=await fetch(u);if(!r.ok)throw 0;return type==='json'?r.json():r.text()};
+ if(isNative)return f(url);
+ try{return await f(url)}catch(e){return f('https://api.allorigins.win/raw?url='+encodeURIComponent(url))}
+}
+function setQ(q,a){S.quote={d:today(),q,a};if(!S.qh.some(x=>x[0]===q)){S.qh.push([q,a]);S.qh=S.qh.slice(-30)}save()}
+async function newQuote(k){
+ try{const j=await get(k?'https://dummyjson.com/quotes/search?q='+encodeURIComponent(k)+'&limit=10':'https://dummyjson.com/quotes/random','json');
+  const a=k?j.quotes:[j];if(!a||!a.length){toast('No quotes found');return}const x=a[Math.floor(Math.random()*a.length)];setQ(x.quote,x.author)}
+ catch(e){const p=S.qh.length?S.qh:QS,x=p[Math.floor(Math.random()*p.length)];setQ(x[0],x[1]);toast('Offline: saved quote shown')}
+ home();
+}
+async function loadNews(){
+ const out=[];
+ await Promise.all(S.nsrc.map(async u=>{try{
+  const x=await get(u),d=new DOMParser().parseFromString(x,'text/xml'),te=d.querySelector('channel>title,feed>title'),src=te?te.textContent.trim():new URL(u).hostname;
+  d.querySelectorAll('item,entry').forEach(it=>{const g=s=>{const e=it.querySelector(s);return e?e.textContent.trim():''},le=it.querySelector('link');
+   out.push({t:g('title'),l:le?(le.textContent.trim()||le.getAttribute('href')):'',d:Date.parse(g('pubDate')||g('published')||g('updated'))||0,s:src})})}catch(e){}}));
+ const seen={},u=out.filter(n=>n.t&&!seen[n.t]&&(seen[n.t]=1)).sort((a,b)=>b.d-a.d).slice(0,40);
+ if(u.length){S.news=u;save()}
+}
+async function loadTg(){
+ const out=[];
+ await Promise.all(S.tg.map(async c=>{try{const h=await get('https://t.me/s/'+c),d=new DOMParser().parseFromString(h,'text/html');
+  d.querySelectorAll('.tgme_widget_message').forEach(m=>{const te=m.querySelector('.tgme_widget_message_text');if(!te)return;const tm=m.querySelector('.tgme_widget_message_date time'),a=m.querySelector('.tgme_widget_message_date');
+   out.push({c,t:te.textContent.trim().slice(0,280),d:tm?Date.parse(tm.getAttribute('datetime')):0,l:a?a.getAttribute('href'):''})})}catch(e){}}));
+ if(out.length){S.tgp=out.sort((a,b)=>b.d-a.d).slice(0,40);save()}
+}
+async function refreshAll(force){
+ status();if(!navigator.onLine)return;
+ if(!force&&Date.now()-S.last<3*36e5&&S.quote.d===today())return;
+ $('#rf').classList.add('spin');
+ await Promise.all([loadNews(),loadTg(),(S.quote.d===today()&&!force)?0:newQuote()]);
+ S.last=Date.now();save();$('#rf').classList.remove('spin');render();if(force)toast('Updated');
+}
+function status(){const on=navigator.onLine;$('#st').innerHTML='<span class="dot '+(on?'on':'')+'"></span>'+(S.last?new Date(S.last).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):(on?'Online':'Offline'))}
+const ago=t=>{if(!t)return'';const h=(Date.now()-t)/36e5;return h<1?Math.max(1,Math.round(h*60))+' min ago':h<24?Math.round(h)+' h ago':Math.round(h/24)+' d ago'};
+const newsHtml=(a,n)=>a.slice(0,n).map(x=>`<a href="${safe(x.l)}" target="_blank" rel="noopener"><b>${esc(x.t)}</b><small>${esc(x.s)} · ${ago(x.d)}</small></a>`).join('')||'<p class="mut">No news yet. Connect to the internet and press ⟳.</p>';
+function home(){
+ const h=new Date().getHours();$('#hi').textContent=h<12?'Good morning':h<18?'Good afternoon':'Good evening';
+ $('#date').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long'});
+ if(!S.quote.q){const x=QS[new Date().getDate()%QS.length];S.quote={d:'',q:x[0],a:x[1]}}
+ $('#q').textContent='“'+S.quote.q+'”';$('#qa').textContent='— '+S.quote.a;
+ const mo=S.tx.filter(t=>t.date.slice(0,7)===today().slice(0,7)),I=sum(mo,'in'),O=sum(mo,'out'),wb=S.tx.filter(t=>t.bal!=null).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:a.id-b.id).pop();
+ $('#hs').innerHTML=`<div class="stat"><small>Income (month)</small><b class="g">${fm(I)}</b></div><div class="stat"><small>Spent (month)</small><b class="r">${fm(O)}</b></div><div class="stat"><small>${wb?'Bank balance':'Net'}</small><b>${fm(wb?wb.bal:sum(S.tx,'in')-sum(S.tx,'out'))}</b></div>`;
+ const p=S.budget?Math.min(100,O/S.budget*100):0;$('#bf').style.width=p+'%';$('#bf').style.background=p>90?'var(--r)':'var(--g)';
+ $('#bt').textContent=S.budget?fm(O)+' / '+fm(S.budget):'Set a budget in Settings';
+ $('#hn').innerHTML=newsHtml(S.news,3);
+ const pend=S.inbox.filter(i=>!i.done);$('#hi2').innerHTML=pend.length?`<b>${pend.length}</b> item(s) to check: `+pend.slice(0,4).map(i=>`<span class="chip">${esc(i.p)}: ${esc(i.t)}</span>`).join(''):'<span class="mut">Nothing pending. 🎉</span>';
+}
+function inRange(t){const r=S.range;if(r==='all')return true;if(r==='month')return t.date.slice(0,7)===today().slice(0,7);const c=new Date();c.setDate(c.getDate()-(+r-1));return t.date>=ds(c)}
+function money(){
+ $$('#chips button').forEach(b=>b.classList.toggle('on',b.dataset.r===S.range));
+ const T=S.tx.filter(inRange),I=sum(T,'in'),O=sum(T,'out');
+ $('#msum').innerHTML=`<div class="stat"><small>Income</small><b class="g">${fm(I)}</b></div><div class="stat"><small>Expense</small><b class="r">${fm(O)}</b></div><div class="stat"><small>Net</small><b class="${I-O>=0?'g':'r'}">${fm(I-O)}</b></div>`;
+ const days=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const k=ds(d),D=S.tx.filter(t=>t.date===k);days.push({k,i:sum(D,'in'),o:sum(D,'out')})}
+ const mx=Math.max(...days.map(d=>Math.max(d.i,d.o)),1);let s='<svg viewBox="0 0 600 150"><line x1="0" x2="600" y1="120" y2="120" stroke="var(--bd)"/>';
+ days.forEach((d,i)=>{const x=i*42+6,hi=d.i/mx*105,ho=d.o/mx*105;s+=`<rect class="b" x="${x}" y="${120-hi}" width="15" height="${hi}" rx="3" fill="var(--g)"/><rect class="b" x="${x+17}" y="${120-ho}" width="15" height="${ho}" rx="3" fill="var(--r)"/><text x="${x+16}" y="140" font-size="10" text-anchor="middle" fill="var(--mut)">${d.k.slice(8)}</text>`});
+ $('#cbar').innerHTML=s+'</svg>';
+ const cm={};T.filter(t=>t.type==='out').forEach(t=>cm[t.cat]=(cm[t.cat]||0)+t.amt);const ce=Object.entries(cm).sort((a,b)=>b[1]-a[1]),COL=['#5b5bf0','#e5384f','#f5a524','#13a874','#22a7e0','#a25cf0','#8a8fa8','#e56bb0'];
+ if(!ce.length)$('#cdon').innerHTML='<p class="mut">No expenses in this period.</p>';else{
+  const C=251.3;let off=0,g='';ce.forEach(([k,v],i)=>{const d=v/O*C;g+=`<circle cx="55" cy="55" r="40" stroke="${COL[i%8]}" stroke-dasharray="${d} ${C-d}" stroke-dashoffset="${-off}"/>`;off+=d});
+  $('#cdon').innerHTML=`<div class="row" style="flex-wrap:nowrap"><svg viewBox="0 0 110 110" style="max-width:150px"><g transform="rotate(-90 55 55)" fill="none" stroke-width="16">${g}</g><text x="55" y="59" text-anchor="middle" font-size="11" font-weight="700" fill="var(--tx)">${ce.length} cat.</text></svg><div style="flex:1">${ce.map(([k,v],i)=>`<div class="row" style="justify-content:space-between"><span><span class="dot" style="background:${COL[i%8]}"></span>${k}</span><b>${fm(v)}</b></div>`).join('')}</div></div>`}
+ const B=S.tx.filter(t=>t.bal!=null).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:a.id-b.id);
+ if(B.length<2)$('#cbal').innerHTML='<p class="mut">Needs 2 messages that show your balance.</p>';else{
+  const v=B.map(t=>t.bal),mn=Math.min(...v),mxv=Math.max(...v),r=(mxv-mn)||1,P=v.map((y,i)=>[10+i/(v.length-1)*580,105-(y-mn)/r*95]),L=P.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join('');
+  $('#cbal').innerHTML=`<svg viewBox="0 0 600 115"><path d="${L}L590 110L10 110Z" fill="var(--acc)" opacity=".12"/><path d="${L}" fill="none" stroke="var(--acc)" stroke-width="2.5"/></svg>`}
+ const opt=c=>CATS.map(k=>`<option${k===c?' selected':''}>${k}</option>`).join('');
+ $('#tx').innerHTML=T.sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:b.id-a.id).slice(0,60).map(t=>`<div class="tx"><div class="ic ${t.type}">${t.type==='in'?'↓':'↑'}</div><div class="m"><b>${esc(t.note||t.cat)}</b><small>${t.date} · <select data-c="${t.id}">${opt(t.cat)}</select></small></div><div class="${t.type==='in'?'g':'r'}"><b>${t.type==='in'?'+':'−'}${fm(t.amt)}</b></div><button class="x" data-del="${t.id}">✕</button></div>`).join('')||'<p class="mut">No transactions yet.</p>';
+}
+function social(){
+ $('#tgc').innerHTML=S.tg.map(c=>`<span class="chip">@${esc(c)} <a href="#" data-rt="${esc(c)}" style="text-decoration:none">✕</a></span>`).join('');
+ $('#tgl').innerHTML=S.tgp.length?S.tgp.slice(0,15).map(x=>`<a href="${safe(x.l)}" target="_blank" rel="noopener"><b>${esc(x.t)}</b><small>@${esc(x.c)} · ${ago(x.d)}</small></a>`).join(''):'<p class="mut">Follow a public channel to see its latest posts here.</p>';
+ $('#il').innerHTML=S.inbox.map(i=>`<div class="tx"><input type="checkbox" data-ck="${i.id}"${i.done?' checked':''}><div class="m"><b style="${i.done?'text-decoration:line-through;opacity:.5':''}">${esc(i.t)}</b><small>${esc(i.p)}</small></div><button class="x" data-di="${i.id}">✕</button></div>`).join('')||'<p class="mut">Empty.</p>';
+}
+function render(){home();money();$('#nl').innerHTML=newsHtml(S.news,40);$('#nu').textContent=S.last?'Updated '+ago(S.last):'';social();status();$('#ls').textContent=S.last?'Last update: '+new Date(S.last).toLocaleString():'Not updated yet.'}
+function go(p){$$('.pg').forEach(s=>s.hidden=s.id!=='p-'+p);$$('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.pg===p));window.scrollTo(0,0)}
+function theme(){S.theme==='auto'?document.documentElement.removeAttribute('data-theme'):document.documentElement.setAttribute('data-theme',S.theme)}
+function doSms(){const r=readSms($('#sms').value);$('#smsr').textContent=`Added ${r.add} · duplicates ${r.dup} · not recognized ${r.bad}`;if(r.add)$('#sms').value='';render()}
+
+$('#nav').onclick=e=>{const b=e.target.closest('button');if(b)go(b.dataset.pg)};
+$('#rf').onclick=()=>refreshAll(true);$('#rn').onclick=()=>refreshAll(true);
+$('#nq').onclick=()=>newQuote();$('#qb').onclick=()=>{const k=$('#qs').value.trim();if(k)newQuote(k)};
+$('#smsb').onclick=doSms;
+$('#clip').onclick=()=>{try{navigator.clipboard.readText().then(t=>{$('#sms').value=t;doSms()}).catch(()=>toast('Paste into the box, then press Calculate'))}catch(e){toast('Paste into the box, then press Calculate')}};
+$('#m-c').innerHTML=CATS.map(c=>`<option>${c}</option>`).join('');
+$('#m-add').onclick=()=>{const a=+$('#m-a').value;if(!(a>0)){toast('Enter an amount');return}S.tx.push({id:Date.now()+Math.random(),key:'m'+Date.now(),date:today(),type:$('#m-t').value,amt:a,cat:$('#m-c').value,note:$('#m-n').value.trim()||$('#m-c').value,bal:null});$('#m-a').value=$('#m-n').value='';save();render()};
+$('#chips').onclick=e=>{if(e.target.dataset.r){S.range=e.target.dataset.r;save();money()}};
+$('#tx').onclick=e=>{const d=e.target.dataset.del;if(d){S.tx=S.tx.filter(t=>String(t.id)!==d);save();render()}};
+$('#tx').onchange=e=>{const c=e.target.dataset.c;if(c){const t=S.tx.find(t=>String(t.id)===c);if(t){t.cat=e.target.value;save();money()}}};
+$('#tga').onclick=()=>{const n=$('#tgn').value.trim().replace(/^.*t\.me\/(s\/)?/,'').replace(/^@/,'');if(!n)return;if(!S.tg.includes(n))S.tg.push(n);$('#tgn').value='';save();social();loadTg().then(social)};
+$('#tgc').onclick=e=>{const c=e.target.dataset.rt;if(c){e.preventDefault();S.tg=S.tg.filter(x=>x!==c);S.tgp=S.tgp.filter(x=>x.c!==c);save();social()}};
+$('#ia').onclick=()=>{const t=$('#it').value.trim();if(!t)return;S.inbox.unshift({id:Date.now(),p:$('#ip').value,t,done:false});$('#it').value='';save();render()};
+$('#il').onclick=e=>{const d=e.target.dataset.di;if(d){S.inbox=S.inbox.filter(i=>String(i.id)!==d);save();render()}};
+$('#il').onchange=e=>{const c=e.target.dataset.ck;if(c){const i=S.inbox.find(i=>String(i.id)===c);i.done=e.target.checked;save();render()}};
+$('#th').onchange=e=>{S.theme=e.target.value;theme();save()};
+$('#cu').oninput=e=>{S.cur=e.target.value||'$';save();render()};
+$('#bu').oninput=e=>{S.budget=+e.target.value||0;save();home()};
+$('#ns').onchange=e=>{S.nsrc=e.target.value.split('\n').map(s=>s.trim()).filter(s=>/^https?:\/\//.test(s));save();toast('Sources saved')};
+$('#ex').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'}));a.download='daily-hub-backup.json';a.click()};
+$('#im').onclick=()=>$('#fi').click();
+$('#fi').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{S=Object.assign(S,JSON.parse(r.result));save();location.reload()}catch(x){toast('Invalid file')}};r.readAsText(f)};
+$('#cl').onclick=()=>{if(confirm('Delete all transactions and notes?')){S.tx=[];S.inbox=[];save();render()}};
+$('#th').value=S.theme;$('#cu').value=S.cur;$('#bu').value=S.budget||'';$('#ns').value=S.nsrc.join('\n');theme();
+window.addEventListener('online',()=>refreshAll());window.addEventListener('offline',status);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){home();refreshAll()}});
+setInterval(()=>refreshAll(),30*60*1000);
+render();go('home');refreshAll();
+</script>
+</body>
+</html>
